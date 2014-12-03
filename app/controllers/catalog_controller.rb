@@ -11,6 +11,13 @@ class CatalogController < ApplicationController
       :qt => 'select',
       :rows => 10
     }
+    config.unique_key = 'recordIdentifier'
+
+    config.default_document_solr_params = {
+      :qt => 'select',
+      :q => '{!raw f=recordIdentifier v=$id}'
+    }
+
 
     # solr path which will be added to solr base url before the other solr params.
     #config.solr_path = 'select'
@@ -133,12 +140,12 @@ class CatalogController < ApplicationController
     # Now we see how to over-ride Solr request handler defaults, in this
     # case for a BL "search field", which is really a dismax aggregate
     # of Solr search fields.
-#
-config.add_search_field('title_keyword') do |field|
+    #
+    config.add_search_field('title_keyword') do |field|
   # solr_parameters hash are sent to Solr as ordinary url query params.
   #field.solr_parameters = { :'spellcheck.dictionary' => 'title_keyword' }
 
-  field.solr_parameters = {:df => 'title_keyword'}
+      field.solr_parameters = {:df => 'title_keyword'}
   # :solr_local_parameters will be sent using Solr LocalParams
   # syntax, as eg {! qf=$title_qf }. This is neccesary to use
   # Solr parameter de-referencing like $title_qf.

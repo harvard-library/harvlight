@@ -38,6 +38,7 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'better_errors', group: :development
 
 gem "blacklight", ">= 5.3.0"
 gem "jettywrapper", "~> 1.7"
