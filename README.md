@@ -8,3 +8,4 @@ Harvard LibraryCloud Blacklight instance.
   It may actually make more sense to define display fields manually, and to only process schema.xml for searchable fields to be added
 * Precondition for previous two - figure out what logic to use for blacklisting unwanted fields
 * Make original mods optionally displayable
+* Display "if you were to do this search as an API call, it would look like this: "
