@@ -23,7 +23,7 @@ class CatalogController < ApplicationController
     #config.solr_path = 'select'
 
     # items to show per page, each number in the array represent another option to choose from.
-    #config.per_page = [10,20,50,100]
+    config.per_page = [10,20,50,100]
 
     ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SolrHelper#solr_doc_params) or
     ## parameters included in the Blacklight-jetty document requestHandler.
@@ -38,7 +38,7 @@ class CatalogController < ApplicationController
 
     # solr field configuration for search results/index views
     config.index.title_field = 'title'
-    #config.index.display_type_field = 'resourceType'
+    config.index.display_type_field = 'format'
 
     # solr field configuration for document/show views
     #config.show.title_field = 'title_display'
@@ -63,9 +63,11 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
-    #config.add_facet_field 'resourceType', :label => 'Format'
+    config.add_facet_field 'resourceType', :label => 'Format'
+    config.add_facet_field 'name', :label=> 'Author/Creator', :limit => 15
     #config.add_facet_field 'pub_date', :label => 'Publication Year', :single => true
-    #config.add_facet_field 'subject_topic_facet', :label => 'Topic', :limit => 20
+    config.add_facet_field 'subject.topic', :label => 'Topic', :limit => 20
+    config.add_facet_field 'subject.genre', :label => 'Genre', :limit => 20
     #config.add_facet_field 'language_facet', :label => 'Language', :limit => true
     #config.add_facet_field 'lc_1letter_facet', :label => 'Call Number'
     #config.add_facet_field 'subject_geo_facet', :label => 'Region'
@@ -89,9 +91,9 @@ class CatalogController < ApplicationController
     #   The ordering of the field names is the order of the display
     config.add_index_field 'title', :label => 'Title'
     #config.add_index_field 'title_vern_display', :label => 'Title'
-    #config.add_index_field 'author_display', :label => 'Author'
+    config.add_index_field 'name', :label => 'Author/Creator'
     #config.add_index_field 'author_vern_display', :label => 'Author'
-    #config.add_index_field 'format', :label => 'Format'
+    config.add_index_field 'resourceType', :label => 'Format'
     #config.add_index_field 'language_facet', :label => 'Language'
     #config.add_index_field 'published_display', :label => 'Published'
     #config.add_index_field 'published_vern_display', :label => 'Published'
@@ -149,6 +151,9 @@ end
     #  }
     #end
 
+    config.add_search_field('resourceType') do |field|
+      field.solr_parameters = {:df => 'resourceType'}
+    end
     # Specifying a :qt only to show it's possible, and so our internal automated
     # tests can test it. In this case it's the same as
     # config[:default_solr_parameters][:qt], so isn't actually neccesary.
